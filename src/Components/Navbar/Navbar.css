@@ -1,0 +1,16 @@
+x.navbar{
+    width: 100% !important;
+    height: 10vh !important;
+    background:#fff !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+.active{
+    color:#D4AF37 !important;
+    font-weight: bold !important;
+}
+
+.nav-link{
+    color: #000;
+    font-weight: 600;
+}
