@@ -1,40 +1,53 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import css from "./Carousel.css";
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-
+import { strapi_url } from '@/common/utils';
+import axios from 'axios';
 export default function Carousel() {
+  const [carouselItems, setCarouselItems] = useState([]);
+
+  useEffect(() => {
+    const fetchCarouselData = async () => {
+      try {
+        const response = await axios(`${strapi_url}/api/carousels?populate=*`);
+        setCarouselItems(response.data.data); // Adjust if needed based on your API structure
+      } catch (error) {
+        console.error('Error fetching carousel data:', error);
+      }
+    };
+
+    fetchCarouselData();
+  }, []);
+
   return (
-    <div
-      id="carouselExampleControls"
-      className="carousel slide container"
-      data-bs-ride="carousel"
-    >
+    <div id="carouselExampleControls" className="carousel slide container" data-bs-ride="carousel">
       <div className="carousel-inner">
-      
-        <div className="carousel-item">
-          <div className="row carousel-row">
-            <div className="col-md-12 col-lg-5">
-              <Image
-                src="/Assets/section.png"
-                alt="Sample Image 2"
-                layout="responsive"
-                width={500}
-                height={500}
-                className="carousel-img"
-              />
-            </div>
-            <div className="col-md-12 col-lg-5 d-flex flex-column justify-content-center carousel-content">
-              <h2 className="carousel-title">Professional Skin care for Visible Results</h2>
-              <p className="carousel-body-text">
-              Achieve smoother, clearer, and healthier skin with our expert treatments.
-              </p>
-              <a href="#" className="btn btn-primary">
-        Book Now
-              </a>
+        {carouselItems.map((item, index) => (
+          <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={item.id}>
+            <div className="row carousel-row">
+              <div className="col-md-12 col-lg-5">
+                {item.image.map((img, imgIndex) => (
+                  <Image
+                    key={img.id}
+                    src={`${strapi_url}${img.url}`} // Use the full URL to the image
+                    alt={img.name}
+                    layout="responsive"
+                    width={img.width}
+                    height={img.height}
+                    className="carousel-img"
+                  />
+                ))}
+              </div>
+              <div className="col-md-12 col-lg-5 d-flex flex-column justify-content-center carousel-content">
+                <h2 className="carousel-title">{item.heading_text}</h2>
+                <p className="carousel-body-text">{item.text}</p>
+                <a href="#" className="btn btn-primary">
+                  Book Now
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        {/* Add more carousel items as needed */}
+        ))}
       </div>
 
       <button
