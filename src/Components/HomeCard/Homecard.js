@@ -3,7 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from 'next/image';
 import styles from './Homecard.module.css';
 import axios from 'axios';
-import { strapi_url } from '@/common/utils';
+import 'animate.css/animate.min.css';
+import { Fade } from 'react-awesome-reveal';
+import { strapi_url,token } from '@/common/utils';
 
 const HomeCard = () => {
   const [concerns, setConcerns] = useState([]);
@@ -23,10 +25,13 @@ const HomeCard = () => {
 
   return (
     <div className="container homecard-container">
-      <h1>Top Concerns</h1>
-      <div className="row homecard-row">
+      <Fade duration={1500} delay={300} >
+      <h1 className='topCon-title'>Top Concerns</h1>
+      </Fade>
+      <div className="row homecard-row" >
         {concerns.map((concern) => (
-          <div key={concern.id} className="col-lg-4 col-md-4 col-sm-12 card-col">
+          <div key={concern.id} className="col-lg-3 col-md-4 col-sm-12 card-col">
+             <Fade duration={1500} delay={1e3} cascade damping={1e-1} >
             <div className={styles.card}>
               <Image
                 src={`${strapi_url}${concern.image.url}`} // Use the image URL from API
@@ -41,6 +46,7 @@ const HomeCard = () => {
                 <button className={styles.ctaButton}>Book Now</button>
               </div>
             </div>
+            </Fade>
           </div>
         ))}
       </div>

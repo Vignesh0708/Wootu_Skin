@@ -25,7 +25,7 @@ const Topservice = () => {
       <h1 className="card-title">Top Services</h1>
       <div className="row homecard-row">
         {services?.map(service => (
-          <div key={service.id} className="col-lg-4 col-md-4 col-sm-12 card-col">
+          <div key={service.id} className="col-lg-3 col-md-4 col-sm-12 card-col">
             <div className={styles.card}>
               <img
                 src={`${strapi_url}${service.image[0].url}`} // Use the first image URL
